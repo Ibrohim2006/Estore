@@ -1,0 +1,153 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+    <!-- Slider Area Start -->
+    <div class="slider-area">
+        <div class="single-slider slider-height2 d-flex align-items-center"
+             data-background="{% static 'img/hero/category.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Checkout</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Slider Area End -->
+
+    <!-- Checkout Area Start -->
+    <section class="checkout_area section_padding">
+        <div class="container">
+            <div class="checkout_form">
+                <form method="POST" action="{% url 'checkout:checkout' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <!-- User Details -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control"
+                                       placeholder="Enter your first name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control"
+                                       placeholder="Enter your last name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" class="form-control"
+                                       placeholder="Enter your email">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" id="phone" name="phone" class="form-control"
+                                       placeholder="Enter your phone number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" name="address" class="form-control"
+                                       placeholder="Enter your address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" class="form-control"
+                                       placeholder="Enter your city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input type="text" id="country" name="country" class="form-control"
+                                       placeholder="Enter your country">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="coupon_code">Coupon Code</label>
+                                <input type="text" id="coupon_code" name="coupon" class="form-control"
+                                       placeholder="Enter coupon code (optional)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="order_box">
+                    <h2>Your Order</h2>
+                    <ul class="list">
+                        <li>
+                            <a href="#">Product
+                                <span>Total</span>
+                            </a>
+                        </li>
+                        {% for item in cart_items_with_totals %}
+                            <li>
+                                <a href="#">{{ item.item.product.name }}
+                                    <span class="middle">x {{ item.item.quantity }}</span>
+                                    <span class="last">${{ item.total_price|floatformat:2 }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <ul class="list list_2">
+                        <li>
+                            <a href="#">Subtotal
+                                <span>${{ order.subtotal|floatformat:2 }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">Shipping
+                                <span>Flat rate: ${{ order.shipping_cost|floatformat:2 }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">Total
+                                <span>${{ order.total|floatformat:2 }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Checkout Area End -->
+
+{% endblock %}

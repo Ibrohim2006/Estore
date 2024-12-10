@@ -1,0 +1,375 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+{% load static %}
+
+<!-- Mirrored from preview.colorlib.com/theme/estore/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Dec 2024 11:25:01 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>eCommerce HTML-5 Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {#    <link rel="manifest" href="/site">#}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="{% static 'img/logo/logo.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<header>
+    <!-- Header Start -->
+    <div class="header-area">
+        <div class="main-header ">
+            <div class="header-top top-bg d-none d-lg-block">
+                <div class="container-fluid">
+                    <div class="col-xl-12">
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="header-info-left d-flex">
+                                <div class="flag">
+                                    <img src="{% static 'img/icon/header_icon.png' %}" alt="">
+                                </div>
+                                <div class="select-this">
+                                    <form action="#">
+                                        <div class="select-itms">
+                                            <select name="select" id="select1">
+                                                <option value="">USA</option>
+                                                <option value="">SPN</option>
+                                                <option value="">CDA</option>
+                                                <option value="">USD</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <ul class="contact-now">
+                                    <li>+998972888001</li>
+                                </ul>
+                            </div>
+                            <div class="header-info-right">
+                                <ul>
+                                    <li><a href="{% url 'authentication:profile' %}">My Account</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom  header-sticky">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <!-- Logo -->
+                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
+                            <div class="logo">
+                                <a href="/"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
+                            <!-- Main-menu -->
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="/">Home</a></li>
+                                        <li><a href="{% url 'base:shop' %}">Shop</a></li>
+                                        <li><a href="{% url 'blog:blog' %}">Blog</a></li>
+                                        <li><a href="#">Pages</a>
+                                            <ul class="submenu">
+                                                <li><a href="{% url 'store:cart' %}">Card</a></li>
+                                                <li><a href="{% url 'checkout:checkout' %}">Product Checkout</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'contact:contact' %}">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
+                            <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
+                                <li class="d-none d-xl-block">
+                                    <div class="form-box f-right">
+                                        <!-- Search Form -->
+                                        <form action="{% url 'base:search' %}" method="get" role="search"
+                                              class="search-form">
+                                            <div class="input-group search-group">
+                                                <!-- Search Input Field -->
+                                                <input
+                                                        type="text"
+                                                        name="search"
+                                                        placeholder="Search products"
+                                                        class="form-control search-input"
+                                                        aria-label="Search products"
+                                                        required
+                                                        autocomplete="off"
+                                                />
+                                                <!-- Search Icon Button -->
+                                                <button type="submit" class="search-icon"
+                                                        style="background: #0e6dcd; border:none; margin-top: -6px;">
+                                                    <i class="fas fa-search special-tag" style="color:white;"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                                <li class="d-none d-xl-block">
+                                    <div class="favorit-items">
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="shopping-card">
+                                        <a href="{% url 'store:cart' %}">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                {% if request.user.is_authenticated %}
+                                    <li class="d-none d-lg-block"><a href="{% url 'authentication:logout' %}"
+                                                                     class="btn header-btn">Log out</a></li>
+                                {% else %}
+                                    <li class="d-none d-lg-block"><a href="{% url 'authentication:register' %}"
+                                                                     class="btn header-btn">Sign up</a></li>
+                                    <li class="d-none d-lg-block"><a href="{% url 'account_login' %}"
+                                                                     class="btn header-btn">Sign in</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="custom-alert alert-{{ message.tags }}" role="alert" id="message">
+                {{ message }}
+                <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <style>
+        .custom-alert {
+            width: 100%; /* Full-width alert */
+            padding: 20px;
+            background-color: #007bff; /* Blue background */
+            color: white;
+            font-size: 24px; /* Larger font size */
+            text-align: center;
+            position: relative;
+            z-index: 9999;
+            margin-bottom: 20px; /* Spacing below the alert */
+            border-radius: 0; /* No rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow */
+        }
+
+        .custom-alert .close {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Automatically hide the alert after 3 seconds
+            setTimeout(function () {
+                $(".custom-alert").slideUp();
+            }, 3000);
+
+            // Hide the alert manually when close button is clicked
+            $(".custom-alert .close").on("click", function () {
+                $(this).parent().slideUp();
+            });
+        });
+    </script>
+
+</header>
+{% block content %}
+{% endblock %}
+<footer>
+
+    <!-- Footer Start-->
+    <div class="footer-area footer-padding">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="single-footer-caption mb-30">
+                            <!-- logo -->
+                            <div class="footer-logo">
+                                <a href="/"><img src="{% static 'img/logo/logo2_footer.png' %}" alt=""></a>
+                            </div>
+                            <div class="footer-tittle">
+                                <div class="footer-pera">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor
+                                        incididunt ut labore.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#"> Offers & Discounts</a></li>
+                                <li><a href="#"> Get Coupon</a></li>
+                                <li><a href="#"> Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>New Products</h4>
+                            <ul>
+                                <li><a href="#">Woman Cloth</a></li>
+                                <li><a href="#">Fashion Accessories</a></li>
+                                <li><a href="#"> Man Accessories</a></li>
+                                <li><a href="#"> Rubber made Toys</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#">Frequently Asked Questions</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Report a Payment Issue</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer bottom -->
+            <div class="row">
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="footer-copy-right">
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i>
+                            by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5">
+                    <div class="footer-copy-right f-right">
+                        <!-- social -->
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-behance"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End-->
+
+</footer>
+
+<!-- JS here -->
+
+<!-- All JS Custom Plugins Link Here here -->
+<script src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/slick.min.js' %}"></script>
+
+<!-- One Page, Animated-HeadLin -->
+<script src="{% static 'js/wow.min.js' %}"></script>
+<script src="{% static 'js/animated.headline.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'js/jquery.sticky.js' %}"></script>
+
+<!-- contact js -->
+<script src="{% static 'js/contact.js' %}"></script>
+<script src="{% static 'js/jquery.form.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/mail-script.js' %}"></script>
+<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-23581568-13');
+</script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+        data-cf-beacon='{"rayId":"8ee424ff8bb71699","version":"2024.10.5","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"cd0b4b3a733644fc843ef0b185f98241","b":1}'
+        crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from preview.colorlib.com/theme/estore/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Dec 2024 11:25:25 GMT -->
+</html>

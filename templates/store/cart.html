@@ -1,0 +1,204 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <style>
+        .cart_area {
+            padding: 60px 0;
+        }
+
+        .table-bordered {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+        }
+
+        .input-number {
+            width: 60px;
+            height: 35px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .product_count {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product_count .btn {
+            width: 35px;
+            height: 35px;
+            padding: 0;
+        }
+
+    </style>
+    <!-- slider Area Start-->
+    <div class="slider-area ">
+        <!-- Mobile Menu -->
+        <div class="single-slider slider-height2 d-flex align-items-center"
+             data-background="{% static 'img/hero/category.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Card List</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- slider Area End-->
+
+    <!--================Cart Area =================-->
+    <section class="cart_area section_padding">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in cart_items %}
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                                 width="50" class="img-thumbnail">
+                                        </div>
+                                        <div class="media-body">
+                                            <p>{{ item.product.name }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>
+                                        {% if item.product.discount %}
+                                            ${{ item.product.real_price|floatformat:2 }} →
+                                            <span style="color: red;">${{ item.product.discount_price }}</span>
+                                        {% else %}
+                                            ${{ item.product.real_price|floatformat:2 }}
+                                        {% endif %}
+                                    </h5>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'store:cart' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                        <div class="product_count">
+                                            <button type="button" class="btn btn-outline-secondary btn-sm decrement">
+                                                <i class="ti-minus"></i>
+                                            </button>
+                                            <input class="input-number text-center" name="quantity" type="number"
+                                                   value="{{ item.quantity }}" min="1"
+                                                   data-price="{{ item.product.real_price }}"
+                                                   data-item-id="{{ item.product.id }}">
+                                            <button type="button" class="btn btn-outline-secondary btn-sm increment">
+                                                <i class="ti-plus"></i>
+                                            </button>
+                                        </div>
+                                        <button type="submit" name="update_quantity"
+                                                class="btn btn-primary btn-sm mt-2">Update
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <h5 class="item-total" id="item-total-{{ item.product.id }}">
+                                        ${{ item.total_price|floatformat:2 }}
+                                    </h5>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'store:cart' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                        <button type="submit" name="remove_item" class="btn btn-danger btn-sm">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <p>Your cart is empty.</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3" class="text-right">
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5 id="cart-subtotal">${{ cart_total|floatformat:2 }}</h5>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="checkout_btn_inner float-right">
+                        <a class="btn btn-secondary" href="{% url 'base:shop' %}">Continue Shopping</a>
+                        <a class="btn btn-primary checkout_btn_1" href="{% url 'checkout:checkout' %}">
+                            Proceed to Checkout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cartItems = document.querySelectorAll('.input-number');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+
+            cartItems.forEach(input => {
+                const decrementButton = input.parentElement.querySelector('.decrement');
+                const incrementButton = input.parentElement.querySelector('.increment');
+                const itemTotalElement = document.getElementById(`item-total-${input.dataset.itemId}`);
+                const pricePerItem = parseFloat(input.dataset.price);
+
+                const updateTotals = () => {
+                    const quantity = parseInt(input.value) || 1;
+                    const itemTotal = quantity * pricePerItem;
+                    itemTotalElement.textContent = `$${itemTotal.toFixed(2)}`;
+
+                    let subtotal = 0;
+                    document.querySelectorAll('.item-total').forEach(el => {
+                        subtotal += parseFloat(el.textContent.replace('$', ''));
+                    });
+                    cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+                };
+
+                decrementButton.addEventListener('click', () => {
+                    if (parseInt(input.value) > 1) {
+                        input.value = parseInt(input.value) - 1;
+                        updateTotals();
+                    }
+                });
+
+                incrementButton.addEventListener('click', () => {
+                    input.value = parseInt(input.value) + 1;
+                    updateTotals();
+                });
+
+                input.addEventListener('change', updateTotals);
+            });
+        });
+    </script>
+
+    <!--================End Cart Area =================-->
+{% endblock %}

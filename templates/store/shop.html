@@ -1,0 +1,273 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <style>
+        .product-img img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            max-height: 300px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .new-product {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .product-marks {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+        }
+
+        .product-mark {
+            background-color: #ff4d4f;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .single-product .price .discount {
+            text-decoration: line-through;
+            color: #888;
+            margin-left: 10px;
+        }
+    </style>
+    <main>
+
+        <!-- slider Area Start-->
+        <div class="slider-area ">
+            <!-- Mobile Menu -->
+            <div class="single-slider slider-height2 d-flex align-items-center"
+                 data-background="{% static 'img/hero/category.jpg' %}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2>Shop product</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- slider Area End-->
+
+        <!-- Latest Products Start -->
+        <section class="latest-product-area latest-padding">
+            <div class="container">
+                <div class="row">
+                    <!-- Filters and Search Sidebar -->
+                    <div class="col-lg-3 col-md-4">
+                        <div class="product_sidebar">
+                            <!-- Search Form -->
+                            <div class="single_sedebar mb-4">
+                                <form action="#" method="GET">
+                                    <input type="text" name="search" placeholder="Search keyword"
+                                           value="{{ search_query }}">
+                                    <i class="ti-search"></i>
+                                </form>
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div class="single_sedebar mb-4">
+                                <div class="select_option">
+                                    <div class="select_option_list">Category <i class="right fas fa-caret-down"></i>
+                                    </div>
+                                    <div class="select_option_dropdown">
+                                        <form action="#" method="GET">
+                                            <select name="category">
+                                                {% for category in categories %}
+                                                    <option value="{{ category.name }}"
+                                                            {% if category.name == category_filter %}selected{% endif %}>
+                                                        {{ category.name }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single_sedebar mb-4">
+                                <div class="select_option">
+                                    <div class="select_option_list">Type <i class="right fas fa-caret-down"></i></div>
+                                    <div class="select_option_dropdown">
+                                        <form action="#" method="GET">
+                                            <select name="type" onchange="this.form.submit()">
+                                                {% for value, label in type_choices %}
+                                                    <option value="{{ value }}"
+                                                            {% if value == type_filter %}selected{% endif %}>
+                                                        {{ label }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Products Section -->
+                    <div class="col-lg-9 col-md-8">
+                        <!-- Sorting Dropdown -->
+                        <div class="row product-btn d-flex justify-content-between mb-4">
+                            <div class="select-this d-flex">
+                                <div class="featured">
+                                    <span>Sort by: </span>
+                                </div>
+                                <form action="#" method="GET">
+                                    <div class="select-itms">
+                                        <select name="select" id="select1" onchange="this.form.submit()">
+                                            <option value="highest-rate"
+                                                    {% if sort_by == 'highest-rate' %}selected{% endif %}>Highest Rate
+                                            </option>
+                                            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name
+                                            </option>
+                                            <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Price
+                                            </option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Product Cards -->
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                 aria-labelledby="nav-home-tab">
+                                <div class="row">
+                                    {% for product in products %}
+                                        <div class="col-xl-4 col-lg-4 col-md-6">
+                                            <div class="single-product mb-60">
+                                                <div class="product-img position-relative">
+                                                    <div class="product-img"
+                                                         style="width:100%; height:250px; overflow:hidden; border-radius:5px;">
+                                                        <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                                                             style="width:100%; height:100%; object-fit:cover;">
+                                                    </div>
+                                                    {% if product.is_new %}
+                                                        <div class="new-product product-badge">
+                                                            <span>New</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if product.discount > 0 %}
+                                                        <ul class="product-marks">
+                                                            <li class="product-mark product-badge">
+                                                                -{{ product.discount }}%
+                                                            </li>
+                                                        </ul>
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="product-caption">
+                                                    <div class="product-ratting">
+                                                        {% for i in 1|to:5 %}
+                                                            <i class="far fa-star{% if i > product.result.overall_rating %} low-star{% endif %}"></i>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <h4>
+                                                        <a href="
+                                                                {% if product.slug %}{% url 'base:product' product.slug %}{% else %}# {% endif %}">{{ product.name }}</a>
+                                                    </h4>
+                                                    <div class="price">
+                                                        <ul>
+                                                            {% if product.discount %}
+                                                                <li>${{ product.discount_price }}</li>
+                                                                <li class="discount">${{ product.real_price }}</li>
+                                                            {% else %}
+                                                                <li>${{ product.real_price }}</li>
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Products End -->
+        <!-- Shop Method Start-->
+        <div class="shop-method-area section-padding30">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-package"></i>
+                            <h6>Free Shipping Method</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-unlock"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-reload"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Shop Method End-->
+        <!-- Gallery Start-->
+        <div class="gallery-wrapper lf-padding">
+            <div class="gallery-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery1.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery2.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery3.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery4.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery5.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gallery End-->
+
+    </main>
+{% endblock %}

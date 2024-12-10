@@ -1,0 +1,96 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign in</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+
+</head>
+
+<body class="bg-gray-100">
+<div id="wrapper" class="flex flex-col justify-between h-screen">
+    <div style="margin-top: 250px">
+        <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
+            <h1 class="lg:text-3xl text-xl font-semibold  mb-6"> Log in</h1>
+            <form action="{% url 'authentication:login' %}" method="post">
+                {% csrf_token %}
+                <input name="email" type="email" placeholder="Email"
+                       class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800"
+                       style="border: 1px solid #d3d5d8 !important;">
+                <input name="password" type="password" placeholder="***********"
+                       class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800"
+                       style="border: 1px solid #d3d5d8 !important;">
+
+                <div class="flex justify-between my-4">
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkbox1" name="remember_me">
+                        <label for="checkbox1"><span class="checkbox-icon"></span> Remember me</label>
+                    </div>
+                    <a href="#"> forget password? </a>
+                </div>
+
+                {{ message }}
+                <button type="submit"
+                        class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">
+                    Log In
+                </button>
+                <div class="text-center mt-5 space-x-2">
+                    <p class="text-base"> New user? <a href="{% url 'authentication:register' %}" class=""> Create an
+                        account </a></p>
+                </div>
+            </form>
+
+            <div class="text-center mt-5">
+                <p class="text-base mb-4 font-medium text-gray-700">Or log in with</p>
+                <div class="flex justify-center space-x-4">
+                    <!-- Google Login Button -->
+                    <form action="{% provider_login_url 'google' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style="border: none; background: none; padding: 0;">
+                            <img
+                                    src="{% static 'img/google.png' %}"
+                                    alt="Google Sign-In"
+                                    style="height: 60px; width: auto; cursor: pointer;"
+                                    class="hover:opacity-80 transition-opacity duration-200"
+                            >
+                        </button>
+                    </form>
+                    <!-- GitHub Login Button -->
+                    <form action="{% provider_login_url 'github' %}" method="post" style="display: inline-block;">
+                        {% csrf_token %}
+                        <button type="submit" style="border: none; background: none; padding: 0; cursor: pointer;">
+                            <img
+                                    src="{% static 'img/github.png' %}"
+                                    alt="GitHub Login"
+                                    style="height: 70px; width: auto;"
+                                    class="hover:opacity-80 transition-opacity duration-200"
+                            >
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'assets/js/tippy.all.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/uikit.js' %}"></script>
+<script src="{% static 'assets/js/simplebar.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+</body>
+
+
+</html>

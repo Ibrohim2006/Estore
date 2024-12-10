@@ -1,0 +1,114 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        /* Home Section Background */
+        .home_background {
+            height: 500px;
+            background-image: url({% static 'img/hero/category.jpg' %});
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Additional styling for home overlay */
+        .home_overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .home_content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+
+        .home_title {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        /* Blog Section Styles */
+        .blog {
+            padding: 50px 0;
+        }
+
+        .blog_post {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .blog_image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .blog_text {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .blog_button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .blog_button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <!-- Home Section -->
+    <div class="home">
+        <div class="home_background"></div>
+        <div class="home_overlay"></div>
+        <div class="home_content d-flex flex-column align-items-center justify-content-center">
+            <h2 class="home_title">Searched Products</h2>
+        </div>
+    </div>
+
+    <!-- Blog Section -->
+    <div class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts d-flex flex-row flex-wrap justify-content-between">
+                        <!-- Loop through products -->
+                        {% for product in products %}
+                            <div class="blog_post">
+                                <div class="blog_image" style="background-image: url('{{ product.image.url }}');"></div>
+                                <div class="blog_text">{{ product.name }}</div>
+                                <div class="blog_button">
+                                    <a href="{% url 'base:product' product.slug %}">See more details</a>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>No products found matching your search criteria.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

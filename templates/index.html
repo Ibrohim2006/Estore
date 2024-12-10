@@ -1,0 +1,397 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <style>
+        .best-collection-area .best-right-cap .single-img img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+            margin: 0 auto;
+        }
+
+        .category-img img {
+            width: 100%; /* Ensure the image spans the full width of its container */
+            height: 250px; /* Set a fixed height for uniformity */
+            object-fit: cover; /* Maintain aspect ratio and crop excess */
+            border-radius: 15px; /* Add rounded corners for a modern look */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+        }
+
+        .category-img img:hover {
+            transform: scale(1.05); /* Slight zoom-in effect on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+
+        .latest-product-area {
+            background-color: #f9f9f9;
+            padding: 60px 0;
+        }
+
+        .single-product {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .single-product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .new-product {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff6f61;
+            color: #fff;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .product-caption {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-caption h4 a {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .product-caption h4 a:hover {
+            color: #ff6f61;
+        }
+
+        .product-caption .price ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .product-caption .price ul li {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .product-caption .price ul .discount {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .product-ratting i {
+            color: #ffd700;
+        }
+
+        .product-ratting i.low-star {
+            color: #ccc;
+        }
+
+
+    </style>
+    <main>
+
+        <!-- slider Area Start -->
+        <div class="slider-area ">
+            <!-- Mobile Menu -->
+            <div class="slider-active">
+                <div class="single-slider slider-height" data-background="{% static 'img/hero/h1_hero.jpg' %}">
+                    <div class="container">
+                        <div class="row d-flex align-items-center justify-content-between">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-none d-md-block">
+                                <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
+                                    <img src="{% static 'img/hero/hero_man.png' %}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-8">
+                                <div class="hero__caption">
+                                    <span data-animation="fadeInRight" data-delay=".4s">60% Discount</span>
+                                    <h1 data-animation="fadeInRight" data-delay=".6s">Winter <br> Collection</h1>
+                                    <p data-animation="fadeInRight" data-delay=".8s">Best Cloth Collection By 2024!</p>
+                                    <!-- Hero-btn -->
+                                    <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                                        <a href="{% url 'base:shop' %}" class="btn hero-btn">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- slider Area End-->
+        <!-- Category Area Start-->
+        <section class="category-area section-padding30">
+            <div class="container-fluid">
+                <!-- Section Tittle -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle text-center mb-85">
+                            <h2>Best Sold Products</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for product in top_selling_products %}
+                        <div class="col-xl-4 col-lg-6">
+                            <div class="single-category mb-30">
+                                <div class="category-img">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    <div class="category-caption">
+                                        <h2>{{ product.name }}</h2>
+                                        <span class="best"><a href="{% url 'base:product' product.slug %}">Shop now</a></span>
+                                        <span class="collection">{{ product.sold_percent|floatformat:2 }}% Sold</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- Category Area End-->
+        <!-- Latest Products Start -->
+        <section class="latest-product-area padding-bottom">
+            <div class="container">
+                <!-- Section Header -->
+                <div class="row product-btn d-flex justify-content-between align-items-end">
+                    <div class="col-md-6">
+                        <div class="section-tittle mb-30">
+                            <h2>Latest Products</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <!-- Nav Tabs -->
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <!-- Tab links -->
+                                <a class="nav-item nav-link active" id="nav-new-tab" data-bs-toggle="tab"
+                                   href="#nav-new" role="tab" aria-controls="nav-new" aria-selected="true">New</a>
+                                <a class="nav-item nav-link" id="nav-featured-tab" data-bs-toggle="tab"
+                                   href="#nav-featured" role="tab" aria-controls="nav-featured" aria-selected="false">Featured</a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Tab Content -->
+                <div class="tab-content mt-4" id="nav-tabContent">
+                    <!-- New Products -->
+                    <div class="tab-pane fade show active" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab">
+                        <div class="row">
+                            {% for product in new_products %}
+                                <div class="col-xl-4 col-lg-4 col-md-6">
+                                    <div class="single-product mb-60">
+                                        <div class="product-img">
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            <div class="new-product"><span>New</span></div>
+                                        </div>
+                                        <div class="product-caption">
+                                            <div class="product-ratting">
+                                                {% for i in 1|to:5 %}
+                                                    <i class="far fa-star{% if i > product.result.overall_rating %} low-star{% endif %}"></i>
+                                                {% endfor %}
+                                            </div>
+                                            <h4>
+                                                <a href="{% url 'base:product' product.slug %}">{{ product.name }}</a>
+                                            </h4>
+                                            <div class="price">
+                                                <ul>
+                                                    {% if product.discount %}
+                                                        <li>${{ product.discount_price }}</li>
+                                                        <li class="discount">${{ product.real_price }}</li>
+                                                    {% else %}
+                                                        <li>${{ product.real_price }}</li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Featured Products -->
+                    <div class="tab-pane fade" id="nav-featured" role="tabpanel" aria-labelledby="nav-featured-tab">
+                        <div class="row">
+                            {% for product in featured_products %}
+                                <div class="col-xl-4 col-lg-4 col-md-6">
+                                    <div class="single-product mb-60">
+                                        <div class="product-img">
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        </div>
+                                        <div class="product-caption">
+                                            <div class="product-ratting">
+                                                {% for i in 1|to:5 %}
+                                                    <i class="far fa-star{% if i > product.result.overall_rating %} low-star{% endif %}"></i>
+                                                {% endfor %}
+                                            </div>
+                                            <h4>
+                                                <a href="{% url 'base:product' product.slug %}">{{ product.name }}</a>
+                                            </h4>
+                                            <div class="price">
+                                                <ul>
+                                                    {% if product.discount %}
+                                                        <li>${{ product.discount_price }}</li>
+                                                        <li class="discount">${{ product.real_price }}</li>
+                                                    {% else %}
+                                                        <li>${{ product.real_price }}</li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bootstrap JS and Popper.js -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
+        <!-- Latest Products End -->
+        <!-- Best Product Start -->
+        <div class="best-product-area lf-padding">
+            <div class="product-wrapper bg-height" style="background-image: url({% static  'img/categori/card.png' %})">
+                <div class="container position-relative">
+                    <div class="row justify-content-between align-items-end">
+                        <div class="product-man position-absolute  d-none d-lg-block">
+                            <img src="{% static 'img/categori/card-man.png' %}" alt="">
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 d-none d-lg-block">
+                            <div class="vertical-text">
+                                <span>Puma</span>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-8">
+                            <div class="best-product-caption">
+                                <h2>Find The Best Product<br> from Our Shop</h2>
+                                <a href="{% url 'base:shop' %}" class="black-btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shape -->
+            <div class="shape bounce-animate d-none d-md-block">
+                <img src="{% static 'img/categori/card-shape.png' %}" alt="">
+            </div>
+        </div>
+        <!-- Best Product End-->
+        <!-- Best Collection Start -->
+        <div class="best-collection-area section-padding2">
+            <div class="container">
+                <div class="row d-flex justify-content-between align-items-end">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="best-left-cap">
+                            <h2>Best Collection of This Month</h2>
+                            <p>Check out our best deals!</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 d-none d-lg-block">
+                        <div class="best-mid-img mb-30">
+                            <img src="{% static 'img/collection/collection2.png' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        {% for product in best_deals %}
+                            <div class="best-right-cap">
+                                <div class="best-single mb-30">
+                                    <div class="single-cap">
+                                        <h4>{{ product.name }}</h4>
+                                    </div>
+                                    <div class="single-img">
+                                        <a href="{% url 'base:product' product.slug %}">
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Collection End -->
+        <!-- Shop Method Start-->
+        <div class="shop-method-area section-padding30">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-package"></i>
+                            <h6>Free Shipping Method</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-unlock"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-reload"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Shop Method End-->
+        <!-- Gallery Start-->
+        <div class="gallery-wrapper lf-padding">
+            <div class="gallery-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery1.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery2.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery3.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery4.jpg' %}" alt="">
+                        </div>
+                        <div class="gallery-items">
+                            <img src="{% static 'img/gallery/gallery5.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gallery End-->
+    </main>
+{% endblock %}

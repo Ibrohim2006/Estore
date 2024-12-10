@@ -1,0 +1,207 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        /* General Product Page Styles */
+        .single_product {
+            margin-top: 50px;
+        }
+
+        .image_selected img {
+            width: 100%;
+            height: auto;
+        }
+
+        .product_description {
+            padding: 20px;
+        }
+
+        .product_category {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .product_name {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .product_description p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Style for the overall rating display */
+        .product_rating {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .product_rating h4 {
+            font-size: 24px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .rating_r {
+            display: flex;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .star {
+            font-size: 30px;
+            color: gray;
+            transition: color 0.2s ease;
+            margin-right: 5px;
+        }
+
+        .star.selected {
+            color: gold;
+        }
+
+        /* Style for the "Save Rating" button */
+        #save-rating {
+            background-color: #007bff; /* Blue background */
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            opacity: 0.6; /* Initially disabled */
+        }
+
+        #save-rating:disabled {
+            background-color: #ccc; /* Disabled button color */
+            cursor: not-allowed;
+        }
+
+        #save-rating:hover:not(:disabled) {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Style for the hidden input element */
+        #selected-rating {
+            display: none; /* Hide the input field, used for form submission */
+        }
+    </style>
+
+    <div class="single_product">
+        <div class="container">
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-lg-5">
+                    <div class="image_selected">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="col-lg-7">
+                    <div class="product_description">
+                        <div class="product_category">{{ product.category }}</div>
+                        <h2 class="product_name">{{ product.name }}</h2>
+
+                        <!-- Product Rating -->
+                        <div class="product_rating">
+                            <div class="rating_r" id="rating">
+                                {% for i in "12345" %}
+                                    <div class="star" data-value="{{ i }}"
+                                            {% if overall_rating >= i %}
+                                         class="star selected"
+                                            {% endif %}>
+                                        &#9733;
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <h4>Overall Rating: {{ overall_rating|default:0 }}</h4>
+                            <form method="POST" id="rating-form">
+                                {% csrf_token %}
+                                <input type="hidden" id="selected-rating" name="rating" value="0">
+                                <button type="submit" id="save-rating" disabled>Save Rating</button>
+                            </form>
+                        </div>
+
+                        <!-- Product Description -->
+                        <p>{{ product.description }}</p>
+
+                        <!-- Order Form -->
+                        <form method="post" action="{% url 'base:product' slug=product.slug %}">
+                            {% csrf_token %}
+
+                            <div class="clearfix" style="z-index: 1000;">
+                                <!-- Product Quantity -->
+                                <div class="product_quantity clearfix">
+                                    <span>Quantity: </span>
+                                    <input name="quantity" id="quantity_input" type="number" min="1" value="1">
+                                    <div class="quantity_buttons">
+                                        <div id="quantity_inc_button" class="quantity_inc quantity_control">
+                                            <i class="fas fa-chevron-up"></i>
+                                        </div>
+                                        <div id="quantity_dec_button" class="quantity_dec quantity_control">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product_price">${{ product.display_price }}</div>
+
+                            <!-- Add to Cart Button -->
+                            <div class="button_container">
+                                <button type="submit" class="button cart_button">Add to Cart</button>
+                            </div>
+                        </form>
+                        <!-- Add to Wishlist Button -->
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="button_container">
+                                <button type="submit" name="add_to_wishlist" class="button wishlist_button">Add to
+                                    Wishlist
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let selectedRating = null;
+
+            // Highlight stars and enable the save button
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function () {
+                    selectedRating = this.getAttribute('data-value');
+
+                    // Highlight selected stars
+                    document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+                    for (let i = 0; i < selectedRating; i++) {
+                        document.querySelectorAll('.star')[i].classList.add('selected');
+                    }
+
+                    // Set the hidden input with the selected rating
+                    document.getElementById('selected-rating').value = selectedRating;
+
+                    // Enable the save button
+                    document.getElementById('save-rating').disabled = false;
+                });
+            });
+
+            // Optional: Submit the form automatically if save button is clicked
+            document.getElementById('rating-form').addEventListener('submit', function (event) {
+                if (!selectedRating) {
+                    event.preventDefault(); // Prevent form submission if no rating is selected
+                    alert('Please select a rating first.');
+                }
+            });
+        });
+    </script>
+{% endblock %}
