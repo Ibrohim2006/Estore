@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%-(6$5r-9t!3=^6no&l&r@_0917j9=j@)lqy(4_i&z3u#fc&jz'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -115,7 +116,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # github
 # secret: 0f8b7aea98e50e134f3302ef7822cbf71160bf47
 # id: Ov23linyPWjbFMGiFuqX
-
+#
 # google
 # id: 87617303766-vbpca7ug6470uhamqbcu5oke7enk4aov.apps.googleusercontent.com
 # secret: key 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
@@ -134,8 +135,12 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
