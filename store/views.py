@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Sum
-from .models import CartModel
+from .models import CartModel, WishlistModel
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/accounts/login/')
 def cart_view(request):
-
     cart_items = CartModel.objects.filter(user=request.user)
 
     cart_num = cart_items.count()
@@ -49,3 +50,21 @@ def cart_view(request):
     }
 
     return render(request, 'store/cart.html', context)
+
+
+@login_required(login_url='/accounts/login/')
+def wishlist_view(request):
+    wishlist = WishlistModel.objects.filter(user=request.user)
+
+    context = {
+        'wishlist': wishlist,
+    }
+    return render(request, 'store/wishlist.html', context)
+
+
+@login_required(login_url='/accounts/login/')
+def remove_wishlist_view(request, item_id):
+    if request.method == 'POST':
+        wishlist_item = get_object_or_404(WishlistModel, id=item_id, user=request.user)
+        wishlist_item.delete()
+        return redirect('store:wishlist')

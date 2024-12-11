@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import PostModel, TagModel, CommentModel
 from .forms import NewsletterForm, CommentForm
 from django.db.models import Count, Q
-
-
+from django.contrib.auth.decorators import login_required
+@login_required(login_url='/accounts/login/')
 def blog_view(request):
     page_number = request.GET.get('page')
     search_query = request.GET.get('search', '')
@@ -35,7 +35,7 @@ def blog_view(request):
     }
     return render(request, 'blog/blog.html', context)
 
-
+@login_required(login_url='/accounts/login/')
 def blog_detail_view(request, slug):
     post = PostModel.objects.annotate(comment_count=Count('commentmodel')).get(slug=slug)
 
@@ -62,7 +62,7 @@ def blog_detail_view(request, slug):
     }
     return render(request, 'blog/single-blog.html', context=d)
 
-
+@login_required(login_url='/accounts/login/')
 def tag_view(request, slug):
     tag = get_object_or_404(TagModel, slug=slug)
     posts = PostModel.objects.filter(tag=tag)

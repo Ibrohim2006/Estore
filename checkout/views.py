@@ -1,27 +1,20 @@
 from itertools import product
-
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from store.models import CartModel
-from .forms import OrderForm
-from .models import CouponModel, OrderModel  # Assuming OrderModel exists
+from .models import CouponModel, OrderModel
+from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url='/accounts/login/')
 def checkout_view(request):
-    discount_amount = 0
-    # Retrieve the active cart for the logged-in user
     cart_items = CartModel.objects.filter(user=request.user)
 
-    # If no active cart is found, show an error message
     if not cart_items:
         messages.error(request, "You have no active cart.")
         return redirect('store:cart')
 
     if request.method == 'POST':
-        print('*' * 100)
-        print(request.POST['coupon'])
-        print('*' * 100)
         if request.POST['coupon'] == '':
             coupon = CouponModel.objects.filter(code=request.POST['coupon']).first()
             cart_total = sum(item.total_price() for item in cart_items)
