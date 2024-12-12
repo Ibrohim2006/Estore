@@ -152,14 +152,3 @@ def product_view(request, slug):
     }
 
     return render(request, 'store/product.html', context)
-
-@login_required(login_url='/accounts/login/')
-def search_view(request):
-    search_query = request.GET.get('search', '')
-    results = ProductModel.objects.filter(name__icontains=search_query)
-
-    context = {
-        'search': search_query,
-        'products': results,
-    }
-    return render(request, 'search.html', context=context)

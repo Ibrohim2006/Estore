@@ -2,7 +2,7 @@
 <html class="no-js" lang="zxx">
 {% load static %}
 
-<!-- Mirrored from preview.colorlib.com/theme/estore/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Dec 2024 11:25:01 GMT -->
+<!-- Mirrored from preview.colorlib.com/theme/estore/index.html by HTTrack Website Copier/3.x [XR&CO2014], Sat, 07 Dec 2024 11:25:01 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -108,31 +108,6 @@
                         <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                             <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
                                 <li class="d-none d-xl-block">
-                                    <div class="form-box f-right">
-                                        <!-- Search Form -->
-                                        <form action="{% url 'base:search' %}" method="get" role="search"
-                                              class="search-form">
-                                            <div class="input-group search-group">
-                                                <!-- Search Input Field -->
-                                                <input
-                                                        type="text"
-                                                        name="search"
-                                                        placeholder="Search products"
-                                                        class="form-control search-input"
-                                                        aria-label="Search products"
-                                                        required
-                                                        autocomplete="off"
-                                                />
-                                                <!-- Search Icon Button -->
-                                                <button type="submit" class="search-icon"
-                                                        style="background: #0e6dcd; border:none; margin-top: -6px;">
-                                                    <i class="fas fa-search special-tag" style="color:white;"></i>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </li>
-                                <li class="d-none d-xl-block">
                                     <div class="favorit-items">
                                         <a href="{% url 'store:wishlist' %}"><i class="far fa-heart"></i></a>
                                     </div>
@@ -237,35 +212,20 @@
                             </div>
                             <div class="footer-tittle">
                                 <div class="footer-pera">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor
-                                        incididunt ut labore.</p>
+                                    <p>You can find best clothes in Estore online shop website</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
-                    <div class="single-footer-caption mb-50">
-                        <div class="footer-tittle">
-                            <h4>Quick Links</h4>
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#"> Offers & Discounts</a></li>
-                                <li><a href="#"> Get Coupon</a></li>
-                                <li><a href="#"> Contact Us</a></li>
-                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
                     <div class="single-footer-caption mb-50">
                         <div class="footer-tittle">
-                            <h4>New Products</h4>
+                            <h4>Products For</h4>
                             <ul>
-                                <li><a href="#">Woman Cloth</a></li>
-                                <li><a href="#">Fashion Accessories</a></li>
-                                <li><a href="#"> Man Accessories</a></li>
-                                <li><a href="#"> Rubber made Toys</a></li>
+                                <li><a href="{% url 'base:shop' %}">Woman</a></li>
+                                <li><a href="{% url 'base:shop' %}">Man</a></li>
+                                <li><a href="{% url 'base:shop' %}"> Children</a></li>
                             </ul>
                         </div>
                     </div>
@@ -275,35 +235,21 @@
                         <div class="footer-tittle">
                             <h4>Support</h4>
                             <ul>
-                                <li><a href="#">Frequently Asked Questions</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Report a Payment Issue</a></li>
+                                <li><a href="{% url 'contact:contact' %}"> Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Footer bottom -->
-            <div class="row">
-                <div class="col-xl-7 col-lg-7 col-md-7">
-                    <div class="footer-copy-right">
-                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                            All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i>
-                            by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                    </div>
-                </div>
-                <div class="col-xl-5 col-lg-5 col-md-5">
-                    <div class="footer-copy-right f-right">
-                        <!-- social -->
-                        <div class="footer-social">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-behance"></i></a>
-                            <a href="#"><i class="fas fa-globe"></i></a>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="https://x.com/"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="https://www.globe.gov/"><i class="fas fa-globe"></i></a></li>
+                                <li><a href="https://www.behance.net/"><i class="fab fa-behance"></i></a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -371,5 +317,5 @@
         crossorigin="anonymous"></script>
 </body>
 
-<!-- Mirrored from preview.colorlib.com/theme/estore/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Dec 2024 11:25:25 GMT -->
+<!-- Mirrored from preview.colorlib.com/theme/estore/index.html by HTTrack Website Copier/3.x [XR&CO2014], Sat, 07 Dec 2024 11:25:25 GMT -->
 </html>

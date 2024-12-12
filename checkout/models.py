@@ -1,5 +1,4 @@
 from django.db import models
-
 from authentication.models import UserModel
 from store.models import ProductModel
 

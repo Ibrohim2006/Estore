@@ -1,10 +1,10 @@
-from itertools import product
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from store.models import CartModel
 from .models import CouponModel, OrderModel
 from django.contrib.auth.decorators import login_required
+
 
 @login_required(login_url='/accounts/login/')
 def checkout_view(request):
@@ -65,6 +65,7 @@ def checkout_view(request):
                 order.save()
                 for cart_item in cart_items:
                     cart_item.product.is_featured = True
+                    cart_item.product.sold = cart_item.product.stock- order.quantity
                     cart_item.product.save()
                 cart_items.delete()
 
