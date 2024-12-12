@@ -5,6 +5,7 @@ from .utils import validate_score
 from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Sum
+from django.utils.translation import gettext_lazy as _
 
 STATUS_CHOICES = [
     ('available', 'Available'),
@@ -20,10 +21,10 @@ TYPE_CHOICES = [
 
 
 class BrandModel(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=50, unique=True, blank=True)
+    name = models.CharField(_("name"), max_length=50, unique=True)
+    slug = models.SlugField(_("slug"), max_length=50, unique=True, blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -36,15 +37,15 @@ class BrandModel(models.Model):
 
     class Meta:
         db_table = "brand"
-        verbose_name = 'Brand'
-        verbose_name_plural = 'Brands'
+        verbose_name = _("Brand")
+        verbose_name_plural = _("Brands")
 
 
 class CategoryModel(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    name = models.CharField(_("name"), max_length=100)
+    slug = models.SlugField(_("slug"), max_length=100, unique=True, blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -56,49 +57,42 @@ class CategoryModel(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
         db_table = 'category'
 
 
 class ProductModel(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True, editable=False, )
-    description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    name = models.CharField(_("name"), max_length=100)
+    slug = models.SlugField(_("slug"), max_length=100, unique=True, editable=False, )
+    description = models.TextField(_("description"), blank=True, null=True)
+    image = models.ImageField(_("image"), upload_to='products/', blank=True, null=True)
 
-    real_price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    discount = models.DecimalField(
-        max_digits=5, decimal_places=2, default=0,
-        help_text="Discount in percentage (e.g., 20 for 20%)"
-    )
+    real_price = models.DecimalField(_("real price"), max_digits=10, decimal_places=2)
+    discount_price = models.DecimalField(_("discount price"), max_digits=10, decimal_places=2, default=0.00)
+    discount = models.DecimalField(_("discount"), max_digits=5, decimal_places=2, default=0)
 
-    is_on_sale = models.BooleanField(default=False)
-    sale_start_date = models.DateField(blank=True, null=True)
-    sale_end_date = models.DateField(blank=True, null=True)
+    is_on_sale = models.BooleanField(_("is on sale"), default=False)
+    sale_start_date = models.DateField(_("sale start date"), blank=True, null=True)
+    sale_end_date = models.DateField(_("sale end date"), blank=True, null=True)
 
-    stock = models.PositiveIntegerField(default=0)
-    sold = models.PositiveIntegerField(default=0)
-    status = models.CharField(
-        max_length=15,
-        choices=STATUS_CHOICES,
-        default='available',
-    )
+    stock = models.PositiveIntegerField(_("stock"), default=0)
+    sold = models.PositiveIntegerField(_("sold"), default=0)
+    status = models.CharField(_("status"), max_length=15, choices=STATUS_CHOICES, default='available', )
 
     category = models.ForeignKey(CategoryModel, on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey(BrandModel, on_delete=models.SET_NULL, null=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='men')
 
-    is_featured = models.BooleanField(default=False)
-    is_new = models.BooleanField(default=False)
+    is_featured = models.BooleanField(_("is featured"), default=False)
+    is_new = models.BooleanField(_("is new"), default=False)
 
-    month_of_deal = models.BooleanField(default=False)
-    deal_start_date = models.DateField(blank=True, null=True)
-    deal_end_date = models.DateField(blank=True, null=True)
+    month_of_deal = models.BooleanField(_("month of deal"), default=False)
+    deal_start_date = models.DateField(_("deal start date"), blank=True, null=True)
+    deal_end_date = models.DateField(_("deal end date"), blank=True, null=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("updated at"), auto_now=True)
 
     def __str__(self):
         return self.name
@@ -135,29 +129,29 @@ class ProductModel(models.Model):
         return 0
 
     class Meta:
-        verbose_name = 'Product'
-        verbose_name_plural = 'Products'
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
         db_table = 'product'
 
 
 class RatingModel(models.Model):
     product = models.ForeignKey(ProductModel, related_name='ratings', on_delete=models.CASCADE)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    rating = models.FloatField(validators=[validate_score])
-    created_at = models.DateTimeField(auto_now_add=True)
+    rating = models.FloatField(_("rating"), validators=[validate_score])
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
 
     def __str__(self):
         return f"{self.product.name} - {self.rating}"
 
     class Meta:
-        verbose_name = 'Rating'
-        verbose_name_plural = 'Ratings'
+        verbose_name = _("Rating")
+        verbose_name_plural = _("Ratings")
         db_table = 'rating'
 
 
 class ProductResultModel(models.Model):
     product = models.OneToOneField(ProductModel, on_delete=models.CASCADE, related_name='result')
-    overall_rating = models.FloatField(default=0.0)
+    overall_rating = models.FloatField(_("overall rating"), default=0.0)
 
     def calculate_overall_rating(self):
         ratings = self.product.ratings.all()
@@ -172,10 +166,9 @@ class ProductResultModel(models.Model):
         return f"Overall rating for {self.product.name}: {self.overall_rating:.2f}"
 
     class Meta:
-        verbose_name = 'Product Result'
-        verbose_name_plural = 'Product Results'
+        verbose_name = _("Product Result")
+        verbose_name_plural = _("Product Results")
         db_table = 'product_results'
-
 
 
 class WishlistModel(models.Model):
@@ -190,21 +183,19 @@ class WishlistModel(models.Model):
         return cls.objects.filter(user=user).count()
 
     class Meta:
-        verbose_name = "Wishlist"
-        verbose_name_plural = "Wishlists"
+        verbose_name = _("Wishlist")
+        verbose_name_plural = _("Wishlists")
         db_table = 'wishlist'
-
-
 
 
 class CartModel(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='cart')
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(_("quantity"), default=1)
 
-    is_ordered = models.BooleanField(default=False)
+    is_ordered = models.BooleanField(_("is ordered"), default=False)
 
-    date_added = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(_("date added"), auto_now_add=True)
 
     def __str__(self):
         return f"{self.product.name} x{self.quantity}"
@@ -231,5 +222,5 @@ class CartModel(models.Model):
 
     class Meta:
         db_table = 'cart'
-        verbose_name = 'Cart'
-        verbose_name_plural = 'Carts'
+        verbose_name = _("Cart")
+        verbose_name_plural = _("Carts")

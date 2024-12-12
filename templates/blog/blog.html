@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load i18n %}
 {% load custom_filters %}
 {% block content %}
 
@@ -12,7 +13,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center">
-                            <h2>Blog</h2>
+                            <h2>{% trans "Blog" %}</h2>
                         </div>
                     </div>
                 </div>
@@ -112,13 +113,13 @@
                                     </div>
                                 </div>
                                 <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                        type="submit">Search
+                                        type="submit">{% trans "Search" %}
                                 </button>
                             </form>
                         </aside>
 
                         <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Tags</h4>
+                            <h4 class="widget_title">{% trans "Tags" %}</h4>
                             <ul class="list cat-list">
                                 {% for tag in tags %}
                                     <li>
@@ -129,14 +130,14 @@
                                     </li>
                                 {% empty %}
                                     <li>
-                                        <p>No tags available.</p>
+                                        <p>{% trans "No tags available." %}</p>
                                     </li>
                                 {% endfor %}
                             </ul>
                         </aside>
 
                         <aside class="single_sidebar_widget instagram_feeds">
-                            <h4 class="widget_title">Popular posts</h4>
+                            <h4 class="widget_title">{% trans "Popular posts" %}</h4>
                             <ul class="instagram_row flex-wrap">
                                 {% for post in most_commented_posts %}
                                     <li>
@@ -149,7 +150,7 @@
                         </aside>
 
                         <aside class="single_sidebar_widget newsletter_widget">
-                            <h4 class="widget_title">Newsletter</h4>
+                            <h4 class="widget_title">{% trans "Newsletter" %}</h4>
 
                             <form action="#" method="post">
                                 {% csrf_token %}
@@ -159,7 +160,7 @@
                                            onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
                                 </div>
                                 <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                        type="submit">Subscribe
+                                        type="submit">{% trans "Subscribe" %}
                                 </button>
                             </form>
                         </aside>

@@ -1,6 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% load custom_filters %}
+{% load i18n %}
 {% block content %}
     <style>
         .best-collection-area .best-right-cap .single-img img {
@@ -127,12 +128,12 @@
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-8">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInRight" data-delay=".4s">60% Discount</span>
-                                    <h1 data-animation="fadeInRight" data-delay=".6s">Winter <br> Collection</h1>
-                                    <p data-animation="fadeInRight" data-delay=".8s">Best Cloth Collection By 2024!</p>
+                                    <span data-animation="fadeInRight" data-delay=".4s">{% trans "60% Discount" %}</span>
+                                    <h1 data-animation="fadeInRight" data-delay=".6s">{% trans "Winter" %} <br> {% trans "Collection" %}</h1>
+                                    <p data-animation="fadeInRight" data-delay=".8s">{% trans "Best Cloth Collection By 2024!" %}</p>
                                     <!-- Hero-btn -->
                                     <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                                        <a href="{% url 'base:shop' %}" class="btn hero-btn">Shop Now</a>
+                                        <a href="{% url 'base:shop' %}" class="btn hero-btn">{% trans "Shop Now" %}</a>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +150,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center mb-85">
-                            <h2>Best Sold Products</h2>
+                            <h2>{% trans "Best Sold Products" %}</h2>
                         </div>
                     </div>
                 </div>
@@ -161,8 +162,8 @@
                                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
                                     <div class="category-caption">
                                         <h2>{{ product.name }}</h2>
-                                        <span class="best"><a href="{% url 'base:product' product.slug %}">Shop now</a></span>
-                                        <span class="collection">{{ product.sold_percent|floatformat:2 }}% Sold</span>
+                                        <span class="best"><a href="{% url 'base:product' product.slug %}">{% trans "Shop Now" %}</a></span>
+                                        <span class="collection">{{ product.sold_percent|floatformat:2 }}% {% trans "Sold" %}</span>
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +180,7 @@
                 <div class="row product-btn d-flex justify-content-between align-items-end">
                     <div class="col-md-6">
                         <div class="section-tittle mb-30">
-                            <h2>Latest Products</h2>
+                            <h2>{% trans "Latest Products" %}</h2>
                         </div>
                     </div>
                     <div class="col-md-6 text-md-end">
@@ -205,7 +206,7 @@
                                     <div class="single-product mb-60">
                                         <div class="product-img">
                                             <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                            <div class="new-product"><span>New</span></div>
+                                            <div class="new-product"><span>{% trans "New" %}</span></div>
                                         </div>
                                         <div class="product-caption">
                                             <div class="product-ratting">
@@ -290,8 +291,8 @@
                         </div>
                         <div class="col-xl-8 col-lg-8">
                             <div class="best-product-caption">
-                                <h2>Find The Best Product<br> from Our Shop</h2>
-                                <a href="{% url 'base:shop' %}" class="black-btn">Shop Now</a>
+                                <h2>{% trans "Find The Best Product" %} <br> {% trans "from Our Shop" %}</h2>
+                                <a href="{% url 'base:shop' %}" class="black-btn">{% trans "Shop Now" %}</a>
                             </div>
                         </div>
                     </div>
@@ -309,8 +310,8 @@
                 <div class="row d-flex justify-content-between align-items-end">
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="best-left-cap">
-                            <h2>Best Collection of This Month</h2>
-                            <p>Check out our best deals!</p>
+                            <h2>{% trans "Best Collection of This Month" %}</h2>
+                            <p>{% trans "Check out our best deals!" %}</p>
                         </div>
                     </div>
                     <div class="col-xl-2 col-lg-2 d-none d-lg-block">

@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <style>
@@ -62,7 +63,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center">
-                            <h2>Single Blog</h2>
+                            <h2>{% trans "Single Blog" %}</h2>
                         </div>
                     </div>
                 </div>
@@ -116,7 +117,7 @@
                                     </div>
                                 {% else %}
                                     <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-                                        <p>No previous post</p>
+                                        <p>{% trans "No previous post" %}</p>
                                     </div>
                                 {% endif %}
 
@@ -142,14 +143,14 @@
                                     </div>
                                 {% else %}
                                     <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-                                        <p>No next post</p>
+                                        <p>{% trans "No next post" %}</p>
                                     </div>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="comments-area">
-                        <h4>{{ post.comment_count }} Comments</h4>
+                        <h4>{{ post.comment_count }} {% trans "Comments" %}</h4>
 
                         <div class="comment-list">
                             {% for comment in comments %}
@@ -180,7 +181,7 @@
                         </div>
                     </div>
                     <div class="comment-form">
-                        <h4>Write a Comment</h4>
+                        <h4>{% trans "Write a Comment" %}</h4>
                         <form class="form-contact comment_form" action="#" method="post" id="commentForm">
                             {% csrf_token %}
                             <div class="row">
@@ -204,7 +205,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Message
+                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">{% trans "Send Message" %}
                                 </button>
                             </div>
                         </form>

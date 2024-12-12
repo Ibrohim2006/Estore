@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block content %}
     <style>
         /* General Form and Profile Styles */
@@ -118,7 +118,7 @@
             <div class="profile-info">
                 <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
                 <div class="stats">
-                    <div id="about-me" onclick="showContent('liked-products')" class="stat-item active">About Me</div>
+                    <div id="about-me" onclick="showContent('liked-products')" class="stat-item active">{% trans "About Me" %}</div>
                 </div>
             </div>
         </div>
@@ -131,17 +131,17 @@
                 <form action="{% url 'authentication:profile' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="first-name">First Name</label>
+                        <label for="first-name">{% trans "First Name" %}</label>
                         <input type="text" id="first-name" name="first_name" value="{{ profile.first_name|default:'' }}"
                                placeholder="Enter your first name" required>
                     </div>
                     <div class="form-group">
-                        <label for="last-name">Last Name</label>
+                        <label for="last-name">{% trans "Last Name" %}</label>
                         <input type="text" id="last-name" name="last_name" value="{{ profile.last_name|default:'' }}"
                                placeholder="Enter your last name" required>
                     </div>
                     <div class="form-group">
-                        <label for="gender">Gender</label>
+                        <label for="gender">{% trans "Gender" %}</label>
                         <select id="gender" name="gender" class="form-select">
                             <option value="----" {% if profile.gender == '' %} selected {% endif %}>----</option>
                             <option value="male" {% if profile.gender == 'male' %} selected {% endif %}>Male</option>
@@ -151,43 +151,43 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="phone_number">Phone Number</label>
+                        <label for="phone_number">{% trans "Phone Number" %}</label>
                         <input type="text" id="phone_number" name="phone_number"
                                value="{{ profile.phone_number|default:'' }}" placeholder="Enter your phone number"
                                required>
                     </div>
                     <div class="form-group">
-                        <label for="profile_picture">Profile Image</label>
+                        <label for="profile_picture">{% trans "Profile Image" %}</label>
                         <input type="file" id="profile_picture" name="profile_picture">
                     </div>
                     <div class="form-group">
-                        <label for="address">Address</label>
+                        <label for="address">{% trans "Address" %}</label>
                         <input type="text" id="address" name="address" value="{{ profile.address|default:'' }}"
                                placeholder="Enter your address">
                     </div>
                     <div class="form-group">
-                        <label for="date_of_birth">Date of Birth</label>
+                        <label for="date_of_birth">{% trans "Date of Birth" %}</label>
                         <input type="date" id="date_of_birth" name="date_of_birth"
                                value="{{ profile.date_of_birth|default:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="age">Age</label>
+                        <label for="age">{% trans "Age" %}</label>
                         <input type="text" id="age" name="age" value="{{ form.age.value|default:'' }}" readonly
                                class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="city">City</label>
+                        <label for="city">{% trans "City" %}</label>
                         <input type="text" id="city" name="city" class="form-control"
                                value="{{ profile.city|default:'' }}" placeholder="Enter your city">
                     </div>
                     <div class="profile-actions">
-                        <button type="submit" class="btn-logout">Save</button>
+                        <button type="submit" class="btn-logout">{% trans "Save" %}</button>
                     </div>
                 </form>
                 <br><br>
                 <div class="profile-actions">
                     <a href="{% url 'authentication:logout' %}">
-                        <button class="btn-logout">Log out</button>
+                        <button class="btn-logout">{% trans "Log out" %}</button>
                     </a>
                 </div>
             </div>
