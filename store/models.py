@@ -111,7 +111,7 @@ class ProductModel(models.Model):
         else:
             self.status = 'available'
 
-        if self.created_at >= timezone.now() - timedelta(days=3):
+        if self.created_at and self.created_at >= timezone.now() - timedelta(days=3):
             self.is_new = True
         else:
             self.is_new = False
