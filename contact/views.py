@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/accounts/login/')
 def contact_view(request):
-    about = AboutModel.objects.get(id=1)
+    about = AboutModel.objects.first()
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
