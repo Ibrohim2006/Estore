@@ -30,7 +30,7 @@
                     <form class="form-contact contact_form"
                           action="{% url 'contact:contact' %}"
                           method="post"
-                          id="contactForm" novalidate="novalidate">
+                          novalidate="novalidate">
                         {% csrf_token %}
                         {{ form.as_p }}  <!-- Renders the form dynamically -->
                         <div class="form-group mt-3">
