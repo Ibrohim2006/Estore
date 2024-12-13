@@ -33,13 +33,15 @@ class UserModel(AbstractUser):
 class ProfileModel(models.Model):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
     first_name = models.CharField(_("first name"), max_length=50, null=True, blank=True)
-    last_name = models.CharField(_("last name"), max_length=50,  null=True, blank=True)
+    last_name = models.CharField(_("last name"), max_length=50, null=True, blank=True)
     gender = models.PositiveSmallIntegerField(_("gender"), choices=Gender_choices, default=1)
     phone_number = models.CharField(_("phone number"), max_length=13, validators=[phone_number_validation])
-    profile_picture = models.ImageField(_("profile picture"), upload_to='profile_pictures', default='img/default_user_image.png')
+    profile_picture = models.ImageField(_("profile picture"), upload_to='profile_pictures',
+                                        default='img/default_user_image.png')
     date_of_birth = models.DateField(_("date of birth"), null=True, blank=True)
     city = models.CharField(_("city"), max_length=30, null=True, blank=True)
     address = models.CharField(_("address"), max_length=100, null=True, blank=True)
+    age = models.PositiveSmallIntegerField(_("age"), null=True, blank=True)
 
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"), auto_now=True)
@@ -48,8 +50,10 @@ class ProfileModel(models.Model):
         if not self.date_of_birth:
             return None
         today = date.today()
-        return today.year - self.date_of_birth.year - (
-                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+        age = today.year - self.date_of_birth.year
+        if (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day):
+            age -= 1
+        return age
 
     def __str__(self):
         return self.user.email

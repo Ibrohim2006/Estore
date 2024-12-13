@@ -38,7 +38,7 @@ class LoginForm(forms.Form):
 
 
 class ProfileForm(forms.ModelForm):
-    age = forms.IntegerField(required=False, disabled=True)  # Add age as read-only field
+    age = forms.IntegerField(required=False, disabled=True)
 
     class Meta:
         model = ProfileModel

@@ -15,7 +15,7 @@
             display: block;
         }
 
-        .form-select, input[type="text"], input[type="email"], input[type="tel"], input[type="date"] {
+        .form-select, input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="file"] {
             border: 1px solid #E6E8ED;
             width: 100%;
             height: 40px;
@@ -46,7 +46,8 @@
 
         .profile-header img {
             border-radius: 50%;
-            max-width: 150px;
+            width: 150px;
+            height: 150px;
             border: 5px solid #fff;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
@@ -61,24 +62,7 @@
             font-weight: 700;
         }
 
-        .profile-info .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .profile-info .stats div {
-            text-align: center;
-            font-size: 16px;
-        }
-
-        .profile-info .stats div.active {
-            color: red;
-            font-weight: bold;
-        }
-
-        .profile-actions .btn-logout {
+        .profile-actions .btn {
             background-color: red;
             color: #fff;
             border: none;
@@ -88,7 +72,7 @@
             cursor: pointer;
         }
 
-        .profile-actions .btn-logout:hover {
+        .profile-actions .btn:hover {
             background-color: #000;
             color: red;
         }
@@ -114,12 +98,10 @@
     <!-- Profile Header -->
     <section class="profile-header">
         <div class="container">
-            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            <img src="{{ profile.profile_picture.url|default:'/static/img/default_user_image.png' }}"
+                 alt="Profile Picture">
             <div class="profile-info">
-                <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
-                <div class="stats">
-                    <div id="about-me" onclick="showContent('liked-products')" class="stat-item active">{% trans "About Me" %}</div>
-                </div>
+                <h2>{{ profile.first_name|default:"First Name" }} {{ profile.last_name|default:"Last Name" }}</h2>
             </div>
         </div>
     </section>
@@ -127,79 +109,67 @@
     <!-- Profile Content Section -->
     <section class="profile-content">
         <div class="container">
-            <div id="liked-products" class="liked-products active">
-                <form action="{% url 'authentication:profile' %}" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="first-name">{% trans "First Name" %}</label>
-                        <input type="text" id="first-name" name="first_name" value="{{ profile.first_name|default:'' }}"
-                               placeholder="Enter your first name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="last-name">{% trans "Last Name" %}</label>
-                        <input type="text" id="last-name" name="last_name" value="{{ profile.last_name|default:'' }}"
-                               placeholder="Enter your last name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">{% trans "Gender" %}</label>
-                        <select id="gender" name="gender" class="form-select">
-                            <option value="----" {% if profile.gender == '' %} selected {% endif %}>----</option>
-                            <option value="male" {% if profile.gender == 'male' %} selected {% endif %}>Male</option>
-                            <option value="female" {% if profile.gender == 'female' %} selected {% endif %}>Female
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone_number">{% trans "Phone Number" %}</label>
-                        <input type="text" id="phone_number" name="phone_number"
-                               value="{{ profile.phone_number|default:'' }}" placeholder="Enter your phone number"
-                               required>
-                    </div>
-                    <div class="form-group">
-                        <label for="profile_picture">{% trans "Profile Image" %}</label>
-                        <input type="file" id="profile_picture" name="profile_picture">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">{% trans "Address" %}</label>
-                        <input type="text" id="address" name="address" value="{{ profile.address|default:'' }}"
-                               placeholder="Enter your address">
-                    </div>
-                    <div class="form-group">
-                        <label for="date_of_birth">{% trans "Date of Birth" %}</label>
-                        <input type="date" id="date_of_birth" name="date_of_birth"
-                               value="{{ profile.date_of_birth|default:'' }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="age">{% trans "Age" %}</label>
-                        <input type="text" id="age" name="age" value="{{ form.age.value|default:'' }}" readonly
-                               class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="city">{% trans "City" %}</label>
-                        <input type="text" id="city" name="city" class="form-control"
-                               value="{{ profile.city|default:'' }}" placeholder="Enter your city">
-                    </div>
-                    <div class="profile-actions">
-                        <button type="submit" class="btn-logout">{% trans "Save" %}</button>
-                    </div>
-                </form>
-                <br><br>
-                <div class="profile-actions">
-                    <a href="{% url 'authentication:logout' %}">
-                        <button class="btn-logout">{% trans "Log out" %}</button>
-                    </a>
+            <form action="{% url 'authentication:profile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="first_name">{% trans "First Name" %}</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ profile.first_name|default:'' }}"
+                           placeholder="{% trans 'Enter your first name' %}" required>
                 </div>
+                <div class="form-group">
+                    <label for="last_name">{% trans "Last Name" %}</label>
+                    <input type="text" id="last_name" name="last_name" value="{{ profile.last_name|default:'' }}"
+                           placeholder="{% trans 'Enter your last name' %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">{% trans "Gender" %}</label>
+                    <select id="gender" name="gender" class="form-select">
+                        <option value="----" {% if profile.gender == '' %} selected {% endif %}>----</option>
+                        <option value="1" {% if profile.gender == 1 %} selected {% endif %}>{% trans "Male" %}</option>
+                        <option value="2" {% if profile.gender == 2 %}
+                                selected {% endif %}>{% trans "Female" %}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">{% trans "Phone Number" %}</label>
+                    <input type="text" id="phone_number" name="phone_number"
+                           value="{{ profile.phone_number|default:'' }}"
+                           placeholder="{% trans 'Enter your phone number' %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="profile_picture">{% trans "Profile Picture" %}</label>
+                    <input type="file" id="profile_picture" name="profile_picture">
+                </div>
+                <div class="form-group">
+                    <label for="address">{% trans "Address" %}</label>
+                    <input type="text" id="address" name="address" value="{{ profile.address|default:'' }}"
+                           placeholder="{% trans 'Enter your address' %}">
+                </div>
+                <div class="form-group">
+                    <label for="date_of_birth">{% trans "Date of Birth" %}</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth"
+                           value="{{ profile.date_of_birth|date:"Y-m-d" }}">
+                </div>
+                <div class="form-group">
+                    <label for="age">{% trans "Age" %}</label>
+                    <input type="text" id="age" name="age" value="{{ profile.calculate_age|default:'' }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="city">{% trans "City" %}</label>
+                    <input type="text" id="city" name="city" value="{{ profile.city|default:'' }}"
+                           placeholder="{% trans 'Enter your city' %}">
+                </div>
+                <div class="profile-actions">
+                    <button type="submit" class="btn">{% trans "Save" %}</button>
+                </div>
+            </form>
+
+            <br>
+            <div class="profile-actions">
+                <a href="{% url 'authentication:logout' %}">
+                    <button type="button" class="btn">{% trans "Log out" %}</button>
+                </a>
             </div>
         </div>
     </section>
-
-    <script>
-        function showContent(contentType) {
-            document.querySelectorAll('.liked-products, .orders').forEach(function (section) {
-                section.classList.remove('active');
-            });
-            document.getElementById(contentType).classList.add('active');
-        }
-    </script>
 {% endblock %}

@@ -61,7 +61,9 @@ def profile_view(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-            form.save()
+            profile = form.save(commit=False)
+            profile.age = profile.calculate_age()
+            profile.save()
             messages.success(request, 'Profile updated successfully!')
             return redirect('authentication:profile')
         else:
